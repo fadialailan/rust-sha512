@@ -1,5 +1,5 @@
 [package]
-name = "mySha512"
+name = "my_sha512"
 version = "0.1.0"
 edition = "2021"
 
