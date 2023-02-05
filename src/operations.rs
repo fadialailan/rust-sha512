@@ -29,11 +29,17 @@ pub fn parsing(data: &Vec<u8>) -> Vec<u64> {
 
 }
 
-pub fn print_hex(data:&[u64]) {
+pub fn get_hex(data:&[u64]) -> String{
+	let mut output:String = String::with_capacity(data.len()*8*2+1);
 	for i in 0..data.len() {
-		print!("{:016x}", data[i]);
+		let next_hex = format!("{:016x}", data[i]);
+		output.push_str(&next_hex);
 	}
-	println!("");
+	return output;
+}
+
+pub fn print_hex(data:&[u64]) {
+	println!("{}", get_hex(data));
 }
 
 pub mod sha {
