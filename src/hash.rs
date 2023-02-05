@@ -1,4 +1,4 @@
-use crate::operations::{self, print_hex};
+use crate::operations::{self};
 use operations::sha::*;
 
 const H_DEFAULT: [u64; 8] = [
@@ -140,8 +140,6 @@ pub fn hash(data: &[u64]) -> [u64; 8] {
             a = t1.wrapping_add(t2);
         }
 
-        println!("{} {} {} {} {} {} {} {}", a, b, c, d, e, f, g, h);
-
         hash_array[0] = hash_array[0].wrapping_add(a);
         hash_array[1] = hash_array[1].wrapping_add(b);
         hash_array[2] = hash_array[2].wrapping_add(c);
@@ -156,16 +154,9 @@ pub fn hash(data: &[u64]) -> [u64; 8] {
 }
 
 pub fn sha512(data: &mut Vec<u8>) -> [u64; 8] {
-    operations::print_hex2(data);
-    println!("");
-
     operations::padding(data);
-    operations::print_hex2(data);
-    println!("");
 
     let blocks = operations::parsing(data);
-    operations::print_hex(&blocks);
-    println!("");
 
     let final_hash = hash(&blocks);
 

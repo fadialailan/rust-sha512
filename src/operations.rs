@@ -31,20 +31,14 @@ pub fn parsing(data: &Vec<u8>) -> Vec<u64> {
 
 pub fn print_hex(data:&[u64]) {
 	for i in 0..data.len() {
-		print!("{:016X}", data[i]);
-	}
-	println!("");
-}
-pub fn print_hex2(data:&[u8]) {
-	for i in 0..data.len() {
-		print!("{:02X}", data[i]);
+		print!("{:016x}", data[i]);
 	}
 	println!("");
 }
 
 pub mod sha {
 	pub fn ch(x:u64, y:u64, z:u64) -> u64 {
-		return (x | y) ^ ( (!x) | z);
+		return (x & y) ^ ( (!x) & z);
 	}
 
 	pub fn maj(x:u64, y:u64, z:u64) -> u64 {
