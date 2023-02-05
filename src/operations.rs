@@ -1,20 +1,11 @@
-const MODULUS: usize = 1024 / 8;
-
-const CONGRUENT_VALUE: usize = 896 / 8;
-const PADDING_START: u8 = 0b10000000;
-
-const H: [u64; 8] = [
-    0x6a09e667f3bcc908,
-    0xbb67ae8584caa73b,
-    0x3c6ef372fe94f82b,
-    0xa54ff53a5f1d36f1,
-    0x510e527fade682d1,
-    0x9b05688c2b3e6c1f,
-    0x1f83d9abfb41bd6b,
-	0x1f83d9abfb41bd6b,
-];
 
 pub fn padding(data: &mut Vec<u8>) -> () {
+
+	const MODULUS: usize = 1024 / 8;
+
+	const CONGRUENT_VALUE: usize = 896 / 8;
+	const PADDING_START: u8 = 0b10000000;
+
 	let original_length = data.len();
 	let mode_size = original_length % MODULUS;
 
@@ -27,13 +18,54 @@ pub fn padding(data: &mut Vec<u8>) -> () {
 	data.extend_from_slice(&u128::to_be_bytes(original_length as u128 * 8));
 }
 
-pub fn parsing(data: &Vec<u8>) -> Vec<u128> {
-	const BLOCK_SIZE:usize = 128/8;
-	let mut output:Vec::<u128> = Vec::new();
+pub fn parsing(data: &Vec<u8>) -> Vec<u64> {
+	const BLOCK_SIZE:usize = 64/8;
+	let mut output:Vec::<u64> = Vec::new();
 	for i in (0..data.len()).step_by(BLOCK_SIZE) {
-		output.push(u128::from_be_bytes(data[i..i+BLOCK_SIZE].try_into().unwrap()));
+		output.push(u64::from_be_bytes(data[i..i+BLOCK_SIZE].try_into().unwrap()));
 	}
 
 	return output;
+
+}
+
+pub fn print_hex(data:&[u64]) {
+	for i in 0..data.len() {
+		print!("{:016X}", data[i]);
+	}
+	println!("");
+}
+pub fn print_hex2(data:&[u8]) {
+	for i in 0..data.len() {
+		print!("{:02X}", data[i]);
+	}
+	println!("");
+}
+
+pub mod sha {
+	pub fn ch(x:u64, y:u64, z:u64) -> u64 {
+		return (x | y) ^ ( (!x) | z);
+	}
+
+	pub fn maj(x:u64, y:u64, z:u64) -> u64 {
+		return (x | y) ^ (x | z) ^ (y | z);
+	}
+
+	pub fn bsigma0(x:u64) -> u64 {
+		return x.rotate_right(28) ^ x.rotate_right(34) ^ x.rotate_right(39);
+	}
+
+	pub fn bsigma1(x:u64) -> u64 {
+		return x.rotate_right(14) ^ x.rotate_right(18) ^ x.rotate_right(41);
+	}
+
+	pub fn sigma0(x:u64) -> u64 {
+		return x.rotate_right(1) ^ x.rotate_right(8) ^ (x >> 7);
+	}
+
+	pub fn sigma1(x:u64) -> u64 {
+		return x.rotate_right(19) ^ x.rotate_right(61) ^ (x >> 6);
+	}
+
 
 }
