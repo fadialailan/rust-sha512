@@ -122,7 +122,6 @@ pub fn hash(data: &[u64]) -> [u64; 8] {
 
         for t in 0..80 {
 
-            //TODO fix t1 and t2, their values are wrong
             let t1: u64 = h
                 .wrapping_add(bsigma1(e))
                 .wrapping_add(ch(e, f, g))

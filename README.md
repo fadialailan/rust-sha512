@@ -2,7 +2,7 @@
 
 this is an implementation of the famous sha512 hashing algorithim that I implementated for fun (and because some one challenged me to do it)
 
-you can run the program to get the checksum of a file by typing in the command line
+you can run the program to get the checksum of a file by typing in the command line (make sure rust and its build system (cargo) are installed)
 
 `cargo run <filename>` 
 
